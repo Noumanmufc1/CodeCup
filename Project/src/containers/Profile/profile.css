@@ -1,0 +1,125 @@
+.body{
+	color:white;
+	overflow: auto;
+	background-color: #2b3035;
+		}
+
+.inline {
+	display: inline;
+}
+
+li{
+	float: left;
+	margin-right: 1.5%;  
+	
+}
+.desc {
+	padding-left: 5%;
+	padding-top: 5%; 
+	float: left;
+	width: 55%;
+	color: white;
+	font-size: 20px;
+}
+.main{
+	width: 100%;
+	height: 100%;
+		}
+.desc img{
+	width: 5%;
+	height:5%;
+}
+
+.card {
+	box-shadow: 5px 5px 15px #5C5B5B, -5px -5px 15px #5C5B5B;
+	width: 40%;
+	height: 30%;
+	margin: 1.5%;
+	float: left;
+		}
+
+.score{
+	color: #f2bb13;
+		}
+
+.name{
+	color: #f2bb13;
+	font-size: 30px;
+}
+.score{
+	color: #f2bb13;
+		}
+.output{
+		width: 70%;
+		height:95%;
+		margin: 2.5% 15%;
+		background-color: #252e38;
+		box-shadow: 5px 5px 15px #5C5B5B, -5px -5px 15px #5C5B5B;
+		padding-left: 2%;
+
+		}
+.card img{
+
+		width:90%; 
+		height: 100%;
+		margin: 5%;
+			
+		background-color: red;
+		position: relative;
+		animation-name: example;
+		animation-duration: 10s;
+		animation-timing-function: linear;
+
+		animation-iteration-count: infinite;
+		animation-direction: alternate;}
+
+		@keyframes example {
+		0%   {transform: skewY(0deg)}
+		25%  {transform: skewY(-5deg)}
+		50%  {transform: skewY(5deg)}
+		75%  {transform: skewY(-5deg)}
+		100% {transform: skewY(5deg)}
+}
+.prof {
+		color: white;
+		clear: both;
+		margin: 1.5%;
+		height: 70%;
+		}
+
+.description{
+	clear: both;
+	color: white;
+
+		}
+.add{
+	background-color: #f2bb13;
+	padding: 0.5%;
+	border: none;}
+
+.skill{
+	display: inline;
+	background-color: #585756;
+	margin: 1%;
+	color: #f2bb13;
+}
+
+.prog{
+    background-color: white;
+    color: rgba(255,255,255,.9);
+}
+
+ul{
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+}
+
+.item{
+	background-color: #585756;
+	color: #f2bb13;
+
+}
+
