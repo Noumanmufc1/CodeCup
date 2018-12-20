@@ -4,12 +4,12 @@ import {Link} from 'react-router-dom';
 import Footer from '../Footer/Footer';
 class Landing extends Component {
   render() {
+    //changing where the button would redirect depending on whether the user is logged in or not
     let link = 'register'
     const tokenInfo = JSON.parse((localStorage.getItem('TokenInfo')));
     if(Boolean(localStorage.getItem("Authentication")) && tokenInfo) {
       link = 'challenge'
     }
-
 
     return(
     <div>
@@ -29,6 +29,7 @@ class Landing extends Component {
       </div>
       <div className={classes.languages}>
 	    </div>
+      {/* slideshow */}
       <div classes = {classes.slideShow}>
         <div id="myCarousel" className={"carousel slide" + ' ' + String(classes.slideShow)} data-ride="carousel">
         {/* <!-- Wrapper for slides --> */}
@@ -66,6 +67,8 @@ class Landing extends Component {
         <p className={classes.subheading}> There is flexibility to choose from easy, medium and hard difficulty level according to your current skill level.</p>
         <p className={classes.heading}> Learn from others </p>
         <p className={classes.subheading}> You can learn from programmers from all around the globe.</p>
+        <p className={classes.heading}> Security </p>
+        <p className={classes.subheading}> Your personal information is secure with us. Only you can view and change it.</p>
 	    </div>
       <Footer />
     </div>

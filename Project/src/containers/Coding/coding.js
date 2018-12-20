@@ -4,8 +4,8 @@ import AceEditor from 'react-ace-editor';
 import axios from 'axios';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 
-
 class Coding extends Component {
+    //calling the constructor and setting the state for the component
     constructor() {
         super()
         this.onChange = this.onChange.bind(this);
@@ -23,9 +23,11 @@ class Coding extends Component {
         }
     }
 
+    //defining handlers for the popup
     handleOpen = () => this.setState({ modalOpen: true })
     handleClose = () => this.setState({ modalOpen: false })
 
+    //getting the data from the database for the specific challenge
     componentWillMount() {
         axios.get("/middleware",{ headers: {"Authorization" : `Bearer ${localStorage.getItem("Token")}`} })
         .then(()=>{
@@ -42,6 +44,8 @@ class Coding extends Component {
             this.props.history.push("/login");
         })
     }
+
+    //sending the request to the backend for compilation of the code
     onClick = (e) => {
         e.preventDefault()
         this.setState({
@@ -53,31 +57,42 @@ class Coding extends Component {
         }
         var output;
         axios.post('/compile', data)
-			.then((result) => {
-                if(result.status === 200) {
-                    output = result.data.stdout;
-                }
-                this.setState({output}, () => {
-                    if(this.state.output.length > 0) {
-                        var html = ''
-                        for(var i = 0; i < 1; i++) {
-                            html += '<h4>Test Case' + String(i+1) + ':</h4><h6>Input:</h6><pre>'+ this.state.challenge.testcases[i] + '</pre>' + '<h6>Expected Output: </h6><pre>' + this.state.challenge.output[i] + '</pre><h6>Your Output:</h6><pre>' + this.state.output[i] + '</pre>'
-                        }
-                        this.setState({result: html})
-                        this.setState({
-                            loadingRun:false
-                        })
+        .then((result) => {
+            if(result.status === 200) {
+                output = result.data.stdout;
+            }
+            this.setState({output}, () => {
+
+                if(this.state.output) {
+                    var html = ''
+                    for(var i = 0; i < 1; i++) {
+                        html += '<h4>Test Case' + String(i+1) + ':</h4><h6>Input:</h6><pre>'+ this.state.challenge.testcases[i] + '</pre>' + '<h6>Expected Output: </h6><pre>' + this.state.challenge.output[i] + '</pre><h6>Your Output:</h6><pre>' + this.state.output[i] + '</pre>'
                     }
-                })
-            })		
-			.catch(error	=>	{
-				this.setState({
-					loadingRun:false
-				})
+                    this.setState({
+                        loadingRun:false,
+                        result: html
+                    })
+                } else {
+                    var html = ''
+                    for(var i = 0; i < 1; i++) {
+                        html += '<h4>Test Case' + String(i+1) + ':</h4><h6>Input:</h6><pre>'+ this.state.challenge.testcases[i] + '</pre>' + '<h6>Expected Output: </h6><pre>' + this.state.challenge.output[i] + '</pre><h6>Your Output:</h6><pre>No input was given</pre>'
+                    }
+                    this.setState({
+                        loadingRun:false,
+                        result: html
+                    })
+                }
             })
-            
-        }
+        })		
+        .catch(error	=>	{
+            this.setState({
+                loadingRun:false
+            })
+        })
         
+    }
+    
+    //setting the code everytime it changes
     onChange(newValue, e) {
         const editor = this.ace.editor; // The editor object is from Ace's API
         this.setState({code:editor.getValue()}); // Outputs the value of the editor
@@ -93,7 +108,7 @@ class Coding extends Component {
         
     }
     
-
+    //sending the request to the backend for compilation of the code and checking it with the expected output 
     onSubmit = (e) => {
         e.preventDefault()
         this.setState({
@@ -110,30 +125,49 @@ class Coding extends Component {
                 output = result.data.stdout;
             }
             this.setState({output}, () => {
-                var html = ''
-                for(var i = 0; i < 1; i++) {
-                    html += '<h4>Test Case' + String(i+1) + ':</h4><h6>Input:</h6><pre>'+ this.state.challenge.testcases[i] + '</pre>' + '<h6>Expected Output: </h6><pre>' + this.state.challenge.output[i] + '</pre><h6>Your Output:</h6><pre>' + this.state.output[i] + '</pre>'
-                }
-                this.setState({result: html, loadingRun: false, loadingSubmit: false})
-                var a = this.state.output
-                var b = this.state.challenge.output 
-                var bool = true; 
-                if(a.length == b.length){ 
-                    for(var i = 0; i < a.length; i++) { 
-                        if(a[i].trim() != b[i].trim()) {
-                             bool = false 
-                             break
-                        }
+                if(this.state.output) {
+                    var html = ''
+                    for(var i = 0; i < 1; i++) {
+                        html += '<h4>Test Case' + String(i+1) + ':</h4><h6>Input:</h6><pre>'+ this.state.challenge.testcases[i] + '</pre>' + '<h6>Expected Output: </h6><pre>' + this.state.challenge.output[i] + '</pre><h6>Your Output:</h6><pre>' + this.state.output[i] + '</pre>'
                     }
+                    this.setState({
+                        loadingRun:false,
+                        result: html
+                    })
                 } else {
-                    bool = false
+                    var html = ''
+                    for(var i = 0; i < 1; i++) {
+                        html += '<h4>Test Case' + String(i+1) + ':</h4><h6>Input:</h6><pre>'+ this.state.challenge.testcases[i] + '</pre>' + '<h6>Expected Output: </h6><pre>' + this.state.challenge.output[i] + '</pre><h6>Your Output:</h6><pre>No input was given</pre>'
+                    }
+                    this.setState({
+                        loadingRun:false,
+                        result: html
+                    })
+                }
+                if(this.state.output) {
+                    var a = this.state.output
+                    var b = this.state.challenge.output 
+                    var bool = true; 
+                    if(a.length == b.length){ 
+                        for(var i = 0; i < a.length; i++) { 
+                            if(a[i].trim() != b[i].trim()) {
+                                bool = false 
+                                break
+                            }
+                        }
+                    } else {
+                        bool = false
+                    }
                 }
                 var points = {
                     points: this.state.challenge.points,
                     challengeId: this.props.match.params.id,
                     category: this.state.challenge.category + 'Points'
                 }
-                if(bool) { 
+                if(!this.state.output) {
+                    this.setState({message: "You didn't enter any code", result1: false})
+                }
+                else if(bool) { 
                     var html = '<h4>Result: </h4><pre>Success</pre>'
                     this.setState({message: 'Congratulations. You earned ' + this.state.challenge.points + ' points', result1: true})
                     axios.post('/incPoints', points, { headers: {"Authorization" : `Bearer ${localStorage.getItem("Token")}`}})
@@ -147,15 +181,29 @@ class Coding extends Component {
                 } else { 
                     var html = '<h4>Result: </h4><pre>Failure</pre>'
                     this.setState({message:'Sorry. You got this wrong. Try again.', result1: false})
-                } 
-                for(var i = 0; i < 2; i++) {
-                    html += '<h4>Test Case ' + String(i+1) + ':</h4><h6>Input:</h6><pre>'+ this.state.challenge.testcases[i] + '</pre>' + '<h6>Expected Output: </h6><pre>' + this.state.challenge.output[i] + '</pre><h6>Your Output:</h6><pre>' + this.state.output[i] + '</pre>'
                 }
-                this.setState({results: html})
-                this.handleOpen()
-                this.setState({
-                    loadingSubmit:false
-                })
+                if(this.state.output) {
+                    for(var i = 0; i < 2; i++) {
+                        html += '<h4>Test Case ' + String(i+1) + ':</h4><h6>Input:</h6><pre>'+ this.state.challenge.testcases[i] + '</pre>' + '<h6>Expected Output: </h6><pre>' + this.state.challenge.output[i] + '</pre><h6>Your Output:</h6><pre>' + this.state.output[i] + '</pre>'
+                    }
+                    this.setState({})
+                    this.handleOpen()
+                    this.setState({
+                        results: html,
+                        loadingSubmit:false
+                    })
+                } else {
+                    for(var i = 0; i < 2; i++) {
+                        html += '<h4>Test Case ' + String(i+1) + ':</h4><h6>Input:</h6><pre>'+ this.state.challenge.testcases[i] + '</pre>' + '<h6>Expected Output: </h6><pre>' + this.state.challenge.output[i] + '</pre><h6>Your Output:</h6><pre>No Input was given</pre>'
+                    }
+                    this.setState({})
+                    this.handleOpen()
+                    this.setState({
+                        results: html,
+                        loadingSubmit:false
+                    })
+                }
+                
             })
         })		
         .catch(error	=>	{

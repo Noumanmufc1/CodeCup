@@ -4,9 +4,12 @@ import axios from 'axios';
 import Footer from '../../components/Footer/Footer'
 
 class LeaderBoard extends Component {
+	//defining the state for the component
 	state  = {
 		users: []
 	}
+
+	//defining a compare function to sort the users on the basis of their pointss
 	compare = (a, b) => {
 		const A = a.points;
 		const B = b.points;
@@ -18,7 +21,9 @@ class LeaderBoard extends Component {
 		  comparison = 1;
 		}
 		return comparison;
-	  }
+		}
+		
+	//fetching the data from the database
 	componentWillMount () {
 		axios.get("/middleware",{ headers: {"Authorization" : `Bearer ${localStorage.getItem("Token")}`} })
 		.then(()=>{
@@ -36,6 +41,8 @@ class LeaderBoard extends Component {
       this.props.history.push("/login");
 		})
 	}
+
+	//returning the data for a specific index
 	getData = (i) => {
 		if(this.state.users.length > i) {
 			return ( 

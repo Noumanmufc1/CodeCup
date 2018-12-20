@@ -10,7 +10,7 @@ const seedDB = require('./backend/seedData/seedData')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const url = process.env.DATABASEURL || "mongodb://localhost/trying";
+const url = process.env.DATABASEURL || "mongodb://localhost/codecupfinal";
 mongoose.connect(url,{ useNewUrlParser: true,useCreateIndex: true, });
 
 
@@ -26,7 +26,7 @@ app.use("/", userRoutes)
 app.use("/challenges", challengeRoutes)
 const path = require("path")
 
-// ... other app.use middleware 
+
 app.use(express.static(path.join(__dirname, "client", "build")))
 
 // ...

@@ -17,6 +17,7 @@ import Dashboard from './containers/Dashboard/dashboard'
 class App extends Component {
   render() {
     return (
+      //adding all the routes to the router
       <Router>
         <div>
           <Navbar />

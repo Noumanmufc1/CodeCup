@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import classes from './aboutus.css'
-import video from '../../assets/about.mp4'
+import video from '../../assets/coding.webm'
 import Footer from '../Footer/Footer'
 import {Icon} from 'semantic-ui-react'
+
 
 class Aboutus extends Component {
   render() {
     return(
       <div className={classes.body}>
+		{ /* adding the background video to the div   */}
       	<header className={classes.header}>
 			<video className={classes.video}  autoPlay="autoplay" muted="muted" loop="loop">
-	    		<source src={video} type="video/mp4" />
+	    		<source src={video} type="video/webm" />
 	 		</video>
 	  		<div className={classes.headerContainer}>
 	   		    <div>
-	   			   <div style={{color:'white'}}>
-	      			  <h1>CodeCup</h1>
-	       			  <h2>A Coding platform for everyone</h2>
+	   			   <div style={{color:'white', textShadow:'4px 4px black;'}}>
+	      			  <h1 style={{fontSize:'250%'}}>CodeCup</h1>
+	       			  <h2 style={{fontSize:'150%'}}>A Coding platform for everyone</h2>
 	      		   </div>
 	   		    </div>
 	 		</div>
@@ -40,6 +42,7 @@ class Aboutus extends Component {
 						<hr /> 
 				    	<h3>Website Developer</h3> 
 						<hr />
+						<h4>I am a Full-Stack Web Developer using React JS for front-end and Node JS for backend development.</h4>
 						<hr />
 						<div style = {{marginRight:'10%'}}>
 							<Icon style = {{marginLeft:'10%'}} name='github' size='huge' />
@@ -55,6 +58,7 @@ class Aboutus extends Component {
 						<hr /> 
 				    	<h3>Website Developer</h3> 
 						<hr /> 
+						<h4>I am a Full-Stack Web Developer using React JS for front-end and Node JS for backend development.</h4>
 						<hr />
 						<div style = {{marginRight:'10%'}}>
 							<Icon style = {{marginLeft:'10%'}} name='github' size='huge' />

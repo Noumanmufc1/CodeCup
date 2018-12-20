@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Button, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react';
 import Footer from '../Footer/Footer'
 class termsOfService extends Component {
+  //defining the state
   state = { visible: false }
 
+  //defining a handle for displaying the sidebar
   handleSideBar = () => {
     if(this.state.visible) {
       this.setState({ visible: false })
@@ -11,6 +13,8 @@ class termsOfService extends Component {
       this.setState({ visible: true })
     }
   } 
+
+  //defining handles for clicking button and hiding sidebar
   handleShowClick = () => this.setState({ visible: true })
   handleSidebarHide = () => this.setState({ visible: false })
   render() {

@@ -5,6 +5,7 @@ import {Select} from 'semantic-ui-react';
 import Footer from '../../components/Footer/Footer'
 
 class Dashboard extends Component {
+    //calling the constructor and defining state of the document
     constructor() {
         super()
         this.state = {
@@ -12,20 +13,21 @@ class Dashboard extends Component {
             level: 'Any'
         }
     }
+
+    //handling the select menu so as to set the level
     handleChange = (e, { value }) => {
         this.setState({ level: value })
-  }
-    componentDidMount() {
+    }
+
+    componentWillMount() {
         const level = {
             level: this.state.level
         }
         axios.get("/middleware",{ headers: {"Authorization" : `Bearer ${localStorage.getItem("Token")}`} })
         .then(()=>{
-            console.log(this.state.level)
             axios.post('/challenges', level, { headers: {"Authorization" : `Bearer ${localStorage.getItem("Token")}`} })
             .then(result => {
                 this.setState({challenge:result.data.challenge})
-                console.log(result)
             }).catch(err => {
                 console.log(err)
             })
@@ -34,8 +36,8 @@ class Dashboard extends Component {
             localStorage.removeItem("Authentication");
             this.props.history.push("/login");
         })
-        
     }
+    //fetching the challenges from the database
     getData = (level1)  => {
         const level = {
             level: level1
@@ -54,10 +56,14 @@ class Dashboard extends Component {
             this.props.history.push("/login");
         })
     }
+
+    //setting the html for a component
     genhtml(html) {
         return {__html: html}
     }
-    createTable = () => {
+
+    //creating the dashboard for the challenges
+    createDashboard = () => {
         let ab='';
         for (let i = 0; i < this.state.challenge.length; i++) {
             if(this.state.challenge.length > 0){
@@ -78,7 +84,7 @@ class Dashboard extends Component {
         <p style={{color:'#f2bb13'}}>
             <div className={classes.challenges}>
                 <Select style={{float:'right', margin: '2%'}} name='level' onChange={this.handleChange} placeholder='Difficulty level' options={[{text:'Any', value: 'Any'}, {text:'Easy', value: 'Easy'}, {text:'Medium', value: 'Medium'}, {text:'Hard', value: 'Hard'}]} />
-                <p dangerouslySetInnerHTML = {this.createTable()}></p>
+                <p dangerouslySetInnerHTML = {this.createDashboard()}></p>
             </div>
         </p>;  
         <Footer />               

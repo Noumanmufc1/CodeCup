@@ -10,7 +10,7 @@ const check = require('../middleware/check')
 var hackerRank = require('machinepack-hackerrank');
 const upload = require("../middleware/image");
 
-
+//defining countries dictionary for adding pics of countries along with the name
 var countries = {
     "Pakistan" : {name: 'Pakistan', imgurl: 'http://www.sciencekids.co.nz/images/pictures/flags96/Pakistan.jpg'},
     "China": {name: 'China', imgurl: 'http://www.sciencekids.co.nz/images/pictures/flags96/China.jpg'},
@@ -19,6 +19,9 @@ var countries = {
     "UK": {name: 'UK', imgurl: 'http://flags.fmcdn.net/data/flags/w580/gb.png'},
     "Canada": {name: 'Canada', imgurl: 'http://www.sciencekids.co.nz/images/pictures/flags96/Canada.jpg'}
 }
+
+
+//route for registering a user
 router.post('/register', (req,res,next)=>{
     User.find({email:req.body.email})
     .exec()
@@ -63,6 +66,8 @@ router.post('/register', (req,res,next)=>{
     })
 });
 
+
+//route for logging in to the website
 router.post("/login", (req, res, next) => {
     User.find({ email: req.body.email })
       .exec()
@@ -107,7 +112,7 @@ router.post("/login", (req, res, next) => {
       });
   });
 
-
+//route for deleteing the user
 router.delete('/:userid', (req, res, next) => {
     User.remove({_id: req.params.userid})
     .exec()
@@ -124,6 +129,7 @@ router.delete('/:userid', (req, res, next) => {
     })
 })
 
+//route for adding a feedback to the database
 router.post('/feedback', check, (req, res, next) => {
     console.log(req.userData)
     User.find({ email: req.userData.email })
@@ -160,6 +166,7 @@ router.post('/feedback', check, (req, res, next) => {
       });
 })
 
+//route for adding points to the user
 router.post('/incPoints', check, (req, res, next) => {
     const category = req.body.category
     console.log(category)
@@ -178,7 +185,7 @@ router.post('/incPoints', check, (req, res, next) => {
         .then(result=>{     
             console.log(result)
             if(category == 'EasyPoints') {
-                User.findOneAndUpdate({ "email": req.userData.email }, { $inc: { "points" : req.body.points,"EasyPoints": req.body.points *4.76 } })
+                User.findOneAndUpdate({ "email": req.userData.email }, { $inc: { "points" : req.body.points,"EasyPoints": req.body.points *4.77 } })
                 .exec()
                 .then(user => {
                     console.log(user)
@@ -187,7 +194,7 @@ router.post('/incPoints', check, (req, res, next) => {
                     console.log(err);
                 }); 
             } else if(category == 'MediumPoints') {
-                User.findOneAndUpdate({ "email": req.userData.email }, { $inc: { "points" : req.body.points,"MediumPoints": req.body.points*3.33 } })
+                User.findOneAndUpdate({ "email": req.userData.email }, { $inc: { "points" : req.body.points,"MediumPoints": req.body.points*3.34 } })
                 .exec()
                 .then(user => {
                     console.log(user)
@@ -196,7 +203,7 @@ router.post('/incPoints', check, (req, res, next) => {
                     console.log(err);
                 }); 
             } else {
-                User.findOneAndUpdate({ "email": req.userData.email }, { $inc: { "points" : req.body.points,"HardPoints": req.body.points *2.04} })
+                User.findOneAndUpdate({ "email": req.userData.email }, { $inc: { "points" : req.body.points,"HardPoints": req.body.points *2.05} })
                 .exec()
                 .then(user => {
                     console.log(user)
@@ -218,6 +225,7 @@ router.post('/incPoints', check, (req, res, next) => {
     })
 })
 
+//route for getting the users for the leaderboard
 router.get('/leaders', check, (req, res, next) => {
     User.find()
     .exec()
@@ -231,6 +239,7 @@ router.get('/leaders', check, (req, res, next) => {
     })
 })
 
+//route for compiling the code by sending it to the hackerank api
 router.post('/compile', function(req, res, next) {
     hackerRank.submit({
         apiKey: 'hackerrank|665905-1221|d2773ca40a490d766a3910926e0a4c0488eed803',
@@ -251,7 +260,7 @@ router.post('/compile', function(req, res, next) {
         });
     });
 
-
+//route for getting the profile of a user
 router.get('/profile', check, function(req, res, next) {
     const id = req.userData.userId
     User.findById(id)
@@ -265,6 +274,8 @@ router.get('/profile', check, function(req, res, next) {
         console.log(err)
     })
 });
+
+//route for updating the user description
 router.post('/updateDesc', check, function(req, res, next) {
     User.findOneAndUpdate({_id: req.userData.userId},{$set: {'description': req.body.description}})
     .exec()
@@ -278,6 +289,8 @@ router.post('/updateDesc', check, function(req, res, next) {
         console.log(err)
     })
 })
+
+//route for updating the skills of a user
 router.post('/updateSkills', check, function(req, res, next) {
     console.log(req.body.skills)
     User.findOneAndUpdate({_id: req.userData.userId},{$set: {'skills': req.body.skills}})
@@ -293,10 +306,9 @@ router.post('/updateSkills', check, function(req, res, next) {
     })
 })
 
-
-router.post('/profileImage',upload.single('image'),check,(req,res,next)=>{
-
-   console.log
+//route for adding a image path to the user and uploading it to cloudinary
+router.post('/profileImage',check, upload.single('image'),(req,res,next)=>{
+    console.log('Hello')
    User.updateOne({_id:req.userData.userId},{$set: {"userImage": req.file.secure_url}})
    .exec()
    .then(doc=>{
@@ -311,6 +323,8 @@ router.post('/profileImage',upload.single('image'),check,(req,res,next)=>{
     })
 })
 })
+
+
 router.get("/middleware",check,(req,res,next)=>{
     return res.status(200).json({
         message:"Successfully Authorized",

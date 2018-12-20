@@ -2,7 +2,6 @@ import React from 'react';
 import {Segment,Container,Grid,Header,pst,Item} from 'semantic-ui-react';
 import classes from './Footer.css'
 const footer = ()=>{
-
     return(
 			<Segment inverted={true} vertical={true} > 
 				<Container>

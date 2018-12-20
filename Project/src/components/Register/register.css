@@ -14,7 +14,7 @@
 	text-align: center;
 	color: white;
 	text-shadow: 4px 4px black;
-	overflow-wrap: break-word;
+	min-height: 100%
 }
 .right{
 	height: 90%;
@@ -26,3 +26,16 @@
 .inline {
 	display: inline;
 }
+@media (max-width: 550px) {
+	.left {
+		display: none
+	}
+	.right {
+		width: 90%;
+	}
+
+  }
+
+  body {
+	  margin: 0%
+  }

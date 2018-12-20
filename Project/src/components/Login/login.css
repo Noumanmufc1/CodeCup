@@ -29,3 +29,13 @@
 .inline {
 	display: inline;
 }
+
+@media (max-width: 550px) {
+	.left {
+		display: none
+	}
+	.right {
+		width: 90%;
+	}
+
+  }

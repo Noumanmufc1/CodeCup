@@ -3,6 +3,9 @@ var router = express.Router();
 const mongoose= require('mongoose')
 var Challenge = require('../models/problems')
 var check = require('../middleware/check')
+
+
+//getting specific data of a challenge
 router.get('/:challengeId', check, function(req, res, next) {
     const id = req.params.challengeId
     Challenge.findById(id)
@@ -16,6 +19,8 @@ router.get('/:challengeId', check, function(req, res, next) {
         console.log(err)
     })
 });
+
+//getting all the challenges depending upon the category chosen
 router.post('/', check, function(req, res, next) {
     if(req.body.level == 'Any') {
         Challenge.find()

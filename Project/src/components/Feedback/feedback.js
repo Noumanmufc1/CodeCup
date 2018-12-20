@@ -7,7 +7,7 @@ import Footer from '../Footer/Footer'
 
 
 class Feedback extends Component {
-	
+	//defining the state of the component
 	state = {
 		classname : String(classes.checked) + ' fa fa-star',
 		isChecked : true,
@@ -15,15 +15,16 @@ class Feedback extends Component {
 		feedback: '',
 		loading: false
 	}
+	//defining handles for opening and closing of the popup
 	handleOpen = () => this.setState({ modalOpen: true })
     handleClose = () => this.setState({ modalOpen: false })
 
+	//onchange event for the textarea
 	onChange = (event) => {
-
 		this.setState({ [event.target.name]:event.target.value });
 	}
 
-	
+	//onclick for submitting the feedback
 	onClick = (e) => {
 		console.log(localStorage.getItem("Token"))
 		e.preventDefault()
@@ -51,6 +52,7 @@ class Feedback extends Component {
 			})
 		})
 	}
+	//checking if the user is logged in or not
 	componentDidMount() {
 		axios.get("/middleware",{ headers: {"Authorization" : `Bearer ${localStorage.getItem("Token")}`} })
 		.then(()=>{})
@@ -62,6 +64,7 @@ class Feedback extends Component {
 	}
 
   render() {
+	//changing the submit button in response to clicking it
 	let submitButton = false
 	let submit = 'Submit'
 	if(!this.state.loadingSubmit) {
@@ -81,6 +84,7 @@ class Feedback extends Component {
 			</div>
 			<div className= {classes.form}>
 				<p className={classes.head}>Kindly rate the following aspects regarding your experience on CodeCup:</p>
+				{/* ratings for different aspects of the website */}
 				<table className={classes.table} style={{fontSize: "150%"}}>
 					<tr style={{background:'#252e38'}}>
 						<td className={classes.value}>Interface of website:<br /></td>
@@ -138,10 +142,12 @@ class Feedback extends Component {
 						</td>
 					</tr>
 				</table>
+				{/* textarea for any additional comments */}
 				<p className={classes.head}>Enter any comments or suggestions you may have:</p>
 				<Form className={classes.form}>
 				    <TextArea name='feedback' onChange={this.onChange} placeholder='Tell us more' style={{ minHeight: 100 }} style={{marginBottom:'3%'}}/>
-				    <Modal
+				    {/* popup */}
+					<Modal
                         trigger={<Button  disabled={submitButton} onClick={this.onClick}>{submit}</Button>}
                         open={this.state.modalOpen}
 						onClose={this.handleClose}
